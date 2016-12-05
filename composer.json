@@ -23,7 +23,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Antsupovsa\\Bitrix\\": "src/"
+      "Antsupovsa\\Bitrix24\\": "src/"
     }
   }
 }

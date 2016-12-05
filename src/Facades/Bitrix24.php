@@ -1,9 +1,9 @@
 <?php
-namespace Antsupovsa\Bitrix\Facades;
+namespace Antsupovsa\Bitrix24\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Bitrix extends Facade
+class Bitrix24 extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -12,6 +12,6 @@ class Bitrix extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'bitrix';
+        return 'bitrix24';
     }
 }
