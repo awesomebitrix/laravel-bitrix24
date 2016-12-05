@@ -1,7 +1,7 @@
 <?php
 namespace Antsupovsa\Bitrix24;
 
-use Bitrix24\CRM\Lead;
+//use Bitrix24\CRM\Lead;
 use Illuminate\Support\Arr;
 
 class Bitrix24
@@ -27,7 +27,7 @@ class Bitrix24
         $this->config = $config;
 
         // init lib
-        $this->bitrix24 = new \Bitrix24\Bitrix24();
+        /*$this->bitrix24 = new \Bitrix24\Bitrix24();
         $this->bitrix24->setApplicationScope($this->config('B24_APPLICATION_SCOPE'));
         $this->bitrix24->setApplicationId($this->config('B24_APPLICATION_ID'));
         $this->bitrix24->setApplicationSecret($this->config('B24_APPLICATION_SECRET'));
@@ -43,7 +43,7 @@ class Bitrix24
         }
         if(!empty($this->config('REFRESH_ID'))) {
             $this->bitrix24->setRefreshToken($this->config('REFRESH_ID'));
-        }
+        }*/
     }
 
     /**
@@ -54,14 +54,14 @@ class Bitrix24
      * @link http://dev.1c-bitrix.ru/rest_help/crm/leads/crm_lead_add.php
      * @return array
      */
-    public function addLead($fields = [], $params = [])
+    /*public function addLead($fields = [], $params = [])
     {
         $lead = new Lead($this->bitrix24);
 
         $currentLead = $lead->add($fields, $params);
 
         return $currentLead;
-    }
+    }*/
 
     /**
      * We can modify internal settings
