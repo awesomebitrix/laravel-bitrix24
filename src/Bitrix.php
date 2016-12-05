@@ -1,10 +1,10 @@
 <?php
-namespace Antsupovsa\Bitrix24;
+namespace Antsupovsa\Bitrix;
 
 use Bitrix24\CRM\Lead;
 use Illuminate\Support\Arr;
 
-class Bitrix24
+class Bitrix
 {
     /**
      * Illuminate config repository instance.

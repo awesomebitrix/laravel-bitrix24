@@ -1,9 +1,9 @@
 <?php
-namespace Antsupovsa\Bitrix24;
+namespace Antsupovsa\Bitrix;
 
 use Illuminate\Support\ServiceProvider;
 
-class Bitrix24ServiceProvider extends ServiceProvider
+class BitrixServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
@@ -12,7 +12,7 @@ class Bitrix24ServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBitrix24Service();
+        $this->registerBitrixService();
 
         if ($this->app->runningInConsole()) {
             $this->registerResources();
@@ -24,10 +24,10 @@ class Bitrix24ServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerBitrix24Service()
+    public function registerBitrixService()
     {
-        $this->app->singleton('bitrix24', function ($app) {
-            return new Bitrix24($app->config->get('bitrix24', []));
+        $this->app->singleton('bitrix', function ($app) {
+            return new Bitrix($app->config->get('bitrix', []));
         });
     }
 
@@ -40,7 +40,7 @@ class Bitrix24ServiceProvider extends ServiceProvider
     {
         if ($this->isLumen() === false) {
             $this->publishes([
-                __DIR__ . '/../config/bitrix24.php' => config_path('bitrix24.php'),
+                __DIR__ . '/../config/bitrix.php' => config_path('bitrix.php'),
             ], 'config');
         }
     }
