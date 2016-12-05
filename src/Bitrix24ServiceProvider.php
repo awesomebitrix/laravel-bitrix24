@@ -40,7 +40,7 @@ class Bitrix24ServiceProvider extends ServiceProvider
     {
         if ($this->isLumen() === false) {
             $this->publishes([
-                __DIR__ . '/../config/getresponse.php' => config_path('getresponse.php'),
+                __DIR__ . '/../config/bitrix24.php' => config_path('bitrix24.php'),
             ], 'config');
         }
     }

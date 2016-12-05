@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: toor
- * Date: 05.12.16
- * Time: 8:57
- */
-
 namespace Antsupovsa\Bitrix24;
 
 use Bitrix24\CRM\Lead;
