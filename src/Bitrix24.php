@@ -20,14 +20,17 @@ class Bitrix24
     protected $config;
 
     /**
+     * @var \Bitrix24\Bitrix24
+     */
+    protected $bitrix24;
+
+    /**
      * Set api key and optionally API endpoint
      * @param      $config
      */
     public function __construct($config)
     {
         $this->config = $config;
-
-
     }
 
     /**
