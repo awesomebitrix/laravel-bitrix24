@@ -12,7 +12,7 @@ class Bitrix24ServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerGetResponseService();
+        $this->registerBitrix24Service();
 
         if ($this->app->runningInConsole()) {
             $this->registerResources();
@@ -24,7 +24,7 @@ class Bitrix24ServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerGetResponseService()
+    public function registerBitrix24Service()
     {
         $this->app->singleton('bitrix24', function ($app) {
             return new Bitrix24($app->config->get('bitrix24', []));
