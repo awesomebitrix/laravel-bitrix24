@@ -1,5 +1,5 @@
 <?php
-namespace Antsupov\Bitrix24\Facades;
+namespace Antsupovsa\Bitrix24\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

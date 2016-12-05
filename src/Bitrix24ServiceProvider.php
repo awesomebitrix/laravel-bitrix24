@@ -1,5 +1,5 @@
 <?php
-namespace Antsupov\Bitrix24;
+namespace Antsupovsa\Bitrix24;
 
 use Illuminate\Support\ServiceProvider;
 
