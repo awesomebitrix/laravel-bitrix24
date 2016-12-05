@@ -1,0 +1,22 @@
+# Created by .ignore support plugin (hsz.mobi)
+vendor/
+node_modules/
+bootstrap/compiled.php
+app/storage/
+public/storage
+storage/*.key
+.env.*.php
+.env.php
+.env
+.rocketeer/
+composer.phar
+/vendor/
+.idea
+*.iws
+/out/
+.idea_modules/
+atlassian-ide-plugin.xml
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
