@@ -12,6 +12,6 @@ class Bitrix24 extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return \Antsupovsa\Bitrix24\Bitrix24::class;
+        return 'bitrix24';
     }
 }
