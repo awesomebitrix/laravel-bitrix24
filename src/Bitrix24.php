@@ -25,12 +25,13 @@ class Bitrix24
     {
         $this->config = $config;
 
-        // init lib
         $this->bitrix24 = new \Bitrix24\Bitrix24();
         $this->bitrix24->setApplicationScope($this->makeScope($this->config('B24_APPLICATION_SCOPE')));
         $this->bitrix24->setApplicationId($this->config('B24_APPLICATION_ID'));
         $this->bitrix24->setApplicationSecret($this->config('B24_APPLICATION_SECRET'));
-
+        if (!empty($this->config('REDIRECT_URL'))) {
+            $this->bitrix24->setRedirectUri($this->config('REDIRECT_URL'));
+        }
         if (!empty($this->config('DOMAIN'))) {
             $this->bitrix24->setDomain($this->config('DOMAIN'));
         }
@@ -38,9 +39,11 @@ class Bitrix24
             $this->bitrix24->setMemberId($this->config('MEMBER_ID'));
         }
         if (!empty($this->config('AUTH_ID'))) {
-
             $this->bitrix24->setAccessToken($this->config('AUTH_ID'));
+        }else{
+            $this->bitrix24->setAccessToken($this->getAccessToken());
         }
+
         if (!empty($this->config('REFRESH_ID'))) {
             $this->bitrix24->setRefreshToken($this->config('REFRESH_ID'));
         }
@@ -48,40 +51,26 @@ class Bitrix24
 
     public function getAccessToken()
     {
-        $client = new \GuzzleHttp\Client();
 
         $params = [
             'client_id' => $this->bitrix24->getApplicationId(),
             'response_type' => 'code',
             'redirect_uri' => $this->bitrix24->getRedirectUri(),
+            'pass' => $this->config('PASS') //TODO: Костыль для авторизации под определнным пользователем
         ];
 
         $uri = 'http://'.$this->bitrix24->getDomain();
         $uri .= '/oauth/authorize/?';
         $uri .= \GuzzleHttp\Psr7\build_query($params);
 
-        $client->request('GET', $uri, [
-            'on_stats' => function (TransferStats $stats) {
-                echo $stats->getEffectiveUri() . "\n";
-                echo $stats->getTransferTime() . "\n";
-                var_dump($stats->getHandlerStats());
-
-                // You must check if a response was received before using the
-                // response object.
-                if ($stats->hasResponse()) {
-                    echo $stats->getResponse()->getStatusCode();
-                } else {
-                    // Error data is handler specific. You will need to know what
-                    // type of error data your handler uses before using this
-                    // value.
-                    var_dump($stats->getHandlerErrorData());
-                }
-            }
-        ]);
-
-
-        //$res = $client->request('GET', $url);
-        $this->bitrix24->setAccessToken($url);
+        $ch = curl_init($uri);
+        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1");
+        curl_setopt($ch, CURLOPT_REFERER, $this->bitrix24->getRedirectUri());
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $auth = curl_exec( $ch );
+        $jsonResult = json_decode($auth);
+        return $jsonResult->access_token;
     }
 
     /**
