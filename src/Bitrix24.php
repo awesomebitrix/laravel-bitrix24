@@ -28,7 +28,7 @@ class Bitrix24
 
         // init lib
         $this->bitrix24 = new \Bitrix24\Bitrix24();
-        $this->bitrix24->setApplicationScope(implode(",", $this->config('B24_APPLICATION_SCOPE')));
+        $this->bitrix24->setApplicationScope($this->makeScope($this->config('B24_APPLICATION_SCOPE')));
         $this->bitrix24->setApplicationId($this->config('B24_APPLICATION_ID'));
         $this->bitrix24->setApplicationSecret($this->config('B24_APPLICATION_SECRET'));
 
@@ -44,6 +44,17 @@ class Bitrix24
         if (!empty($this->config('REFRESH_ID'))) {
             $this->bitrix24->setRefreshToken($this->config('REFRESH_ID'));
         }
+    }
+
+    /**
+     * @param $scope
+     * @return array
+     */
+    public function makeScope($scope)
+    {
+        $scopes = explode(",", $scope);
+
+        return $scopes;
     }
 
     /**
