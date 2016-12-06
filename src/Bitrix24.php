@@ -13,9 +13,7 @@ class Bitrix24
      */
     protected $config;
 
-    /**
-     * @var \Bitrix24\Bitrix24
-     */
+    /** @var \Bitrix24\Bitrix24 */
     protected $bitrix24;
 
     /**
@@ -39,11 +37,30 @@ class Bitrix24
             $this->bitrix24->setMemberId($this->config('MEMBER_ID'));
         }
         if (!empty($this->config('AUTH_ID'))) {
+
             $this->bitrix24->setAccessToken($this->config('AUTH_ID'));
         }
         if (!empty($this->config('REFRESH_ID'))) {
             $this->bitrix24->setRefreshToken($this->config('REFRESH_ID'));
         }
+    }
+
+    public function getAccessToken()
+    {
+        $client = new \GuzzleHttp\Client();
+
+        $params = [
+            'client_id' => $this->bitrix24->getApplicationId(),
+            'response_type' => 'code',
+            'redirect_uri' => $this->bitrix24->getRedirectUri(),
+        ];
+
+        $url = 'http://'.$this->bitrix24->getDomain();
+        $url .= '/oauth/authorize/';
+        $url .= \GuzzleHttp\Psr7\build_query($params);
+
+        $res = $client->request('GET', $url);
+        $this->bitrix24->setAccessToken($res);
     }
 
     /**
