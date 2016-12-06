@@ -2,6 +2,7 @@
 namespace Antsupovsa\Bitrix24;
 
 use Bitrix24\CRM\Lead;
+use GuzzleHttp\TransferStats;
 use Illuminate\Support\Arr;
 
 class Bitrix24
@@ -55,12 +56,32 @@ class Bitrix24
             'redirect_uri' => $this->bitrix24->getRedirectUri(),
         ];
 
-        $url = 'http://'.$this->bitrix24->getDomain();
-        $url .= '/oauth/authorize/';
-        $url .= \GuzzleHttp\Psr7\build_query($params);
+        $uri = 'http://'.$this->bitrix24->getDomain();
+        $uri .= '/oauth/authorize/?';
+        $uri .= \GuzzleHttp\Psr7\build_query($params);
 
-        $res = $client->request('GET', $url);
-        $this->bitrix24->setAccessToken($res);
+        $client->request('GET', $uri, [
+            'on_stats' => function (TransferStats $stats) {
+                echo $stats->getEffectiveUri() . "\n";
+                echo $stats->getTransferTime() . "\n";
+                var_dump($stats->getHandlerStats());
+
+                // You must check if a response was received before using the
+                // response object.
+                if ($stats->hasResponse()) {
+                    echo $stats->getResponse()->getStatusCode();
+                } else {
+                    // Error data is handler specific. You will need to know what
+                    // type of error data your handler uses before using this
+                    // value.
+                    var_dump($stats->getHandlerErrorData());
+                }
+            }
+        ]);
+
+
+        //$res = $client->request('GET', $url);
+        $this->bitrix24->setAccessToken($url);
     }
 
     /**
