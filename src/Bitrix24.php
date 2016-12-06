@@ -29,6 +29,7 @@ class Bitrix24
         $this->bitrix24->setApplicationScope($this->makeScope($this->config('B24_APPLICATION_SCOPE')));
         $this->bitrix24->setApplicationId($this->config('B24_APPLICATION_ID'));
         $this->bitrix24->setApplicationSecret($this->config('B24_APPLICATION_SECRET'));
+        $accessToken = $this->getAccessToken();
         if (!empty($this->config('REDIRECT_URL'))) {
             $this->bitrix24->setRedirectUri($this->config('REDIRECT_URL'));
         }
@@ -36,12 +37,12 @@ class Bitrix24
             $this->bitrix24->setDomain($this->config('DOMAIN'));
         }
         if (!empty($this->config('MEMBER_ID'))) {
-            $this->bitrix24->setMemberId($this->config('MEMBER_ID'));
+            $this->bitrix24->setMemberId($accessToken->member_id);
         }
         if (!empty($this->config('AUTH_ID'))) {
             $this->bitrix24->setAccessToken($this->config('AUTH_ID'));
         }else{
-            $this->bitrix24->setAccessToken($this->getAccessToken());
+            $this->bitrix24->setAccessToken($accessToken->access_token);
         }
 
         if (!empty($this->config('REFRESH_ID'))) {
@@ -70,7 +71,7 @@ class Bitrix24
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $auth = curl_exec( $ch );
         $jsonResult = json_decode($auth);
-        return $jsonResult->access_token;
+        return $jsonResult;
     }
 
     /**
